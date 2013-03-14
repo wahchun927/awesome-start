@@ -17,6 +17,15 @@ handlers:
   static_dir: static
   expiration: 1m
 
+- url: /getuser
+  script: rpx.application
+  
+- url: /logout
+  script: rpx.application
+  
+- url: /rpx_response
+  script: rpx.application
+
 - url: /.*
   script: backend.application
     
