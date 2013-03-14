@@ -43,7 +43,7 @@ class RPXTokenHandler(webapp.RequestHandler):
         url = 'https://rpxnow.com/api/v2/auth_info'
         args = {
             'format': 'json',
-            'apiKey': '641e88348d712d17b002acc70f546929bf1fd018',
+            'apiKey': 'insert API key here',
             'token': token
         }
         r = urlfetch.fetch(url=url,
