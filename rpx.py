@@ -78,11 +78,7 @@ class RPXTokenHandler(webapp.RequestHandler):
         else:
             redirect_with_msg(self, 'your login attempt FAILED!')
 
-class MainPage(webapp.RequestHandler):
-    def render_template(self, file, template_vals):
-        path = os.path.join(os.path.dirname(__file__), 'templates', file)
-        self.response.out.write(template.render(path, template_vals))
-
+class GetUser(webapp.RequestHandler):
     def get(self):
         session = get_current_session()
         d = dict()
@@ -118,7 +114,7 @@ class LogoutPage(webapp.RequestHandler):
         else:
             redirect_with_msg(self, "How silly, you weren't logged in")
 
-application = webapp.WSGIApplication([('/getuser', MainPage),
+application = webapp.WSGIApplication([('/getuser', GetUser),
                                       ('/logout', LogoutPage),
                                       ('/rpx_response', RPXTokenHandler),
                                      ])
