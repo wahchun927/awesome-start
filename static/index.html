@@ -1,6 +1,36 @@
 <!doctype html>
 <html ng-app="app">
   <head>
+	<!-- Janrain -->
+  	<script type="text/javascript">
+	(function() {
+	    if (typeof window.janrain !== 'object') window.janrain = {};
+	    if (typeof window.janrain.settings !== 'object') window.janrain.settings = {};
+	    
+	    janrain.settings.tokenUrl = 'http://localhost:8080/rpx_response';
+	
+	    function isReady() { janrain.ready = true; };
+	    if (document.addEventListener) {
+	      document.addEventListener("DOMContentLoaded", isReady, false);
+	    } else {
+	      window.attachEvent('onload', isReady);
+	    }
+	
+	    var e = document.createElement('script');
+	    e.type = 'text/javascript';
+	    e.id = 'janrainAuthWidget';
+	
+	    if (document.location.protocol === 'https:') {
+	      e.src = 'https://rpxnow.com/js/lib/code-comparison/engage.js';
+	    } else {
+	      e.src = 'http://widget-cdn.rpxnow.com/js/lib/code-comparison/engage.js';
+	    }
+	
+	    var s = document.getElementsByTagName('script')[0];
+	    s.parentNode.insertBefore(e, s);
+	})();
+	</script>
+	<!-- Janrain End -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-resource.min.js"></script>
 
@@ -47,8 +77,8 @@
         $scope.apikey = "1234";
         
         //Replace this url with your final URL from the SingPath API path. 
-        //$scope.remote_url = "localhost:8080";
-        $scope.remote_url = "code-comparison.appspot.com";
+        $scope.remote_url = "localhost:8080";
+/*         $scope.remote_url = "code-comparison.appspot.com"; */
         
         //Change this model here with your own!
         $scope.model = "message";
@@ -63,6 +93,21 @@
                                 {},{'get': {method: 'JSONP', isArray: false, params:{callback: 'JSON_CALLBACK'}}
                                    }
                             );
+        
+        $scope.User = $resource('http://:remote_url/getuser',
+                                {},{'get': {method: 'JSONP', isArray: false, params:{callback: 'JSON_CALLBACK'}}
+                                   }
+                            );
+        
+        $scope.getuser = function(){
+	        data = {'remote_url':$scope.remote_url};
+			$scope.waiting = "Updating";       
+			$scope.User.get(data,
+			    function(response) { 
+			      $scope.User = response;
+			      $scope.waiting = "Ready";
+			    });
+        }
         
         //Updates the server model <id> with the "item" object in the page: update(<id of object>)
         $scope.update = function(id){
@@ -173,7 +218,8 @@
         
         };
         
-        $scope.list();         
+        $scope.list();
+        $scope.getuser();         
       }
     </script>
     <!-- Bootstrap -->
@@ -207,7 +253,8 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="index.html">Overview</a></li>
-              <!-- <li><a href="#about">Documentation</a></li> -->
+              <li ng-hide="User.login"><a class="janrainEngage" href="#">Sign-In</a></li>
+              <li ng-show="User.login"><a href="/logout">Logout {{User.name}}</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
