@@ -21,8 +21,8 @@ env:
     - secure: "VX14P2aBAYhNcxowOORAJQpys6S+dr0wpg+VV67KDDmBs4LKm6om9q28O6Ph\nzvFVFzwHxUIgOlaKElDu8I85I98U1G+ogI+Miga56ykNAM9R5YXGzAebqMDx\nblkBlQPejnPLpES9/gB0gMjNFUKcrslMoREi73GEtfVR51VHC/A="
 
 after_success:
-- cd ..
-- ls
-- wget http://googleappengine.googlecode.com/files/google_appengine_1.7.4.zip -nv
-- unzip -q google_appengine_1.7.4.zip
-- google_appengine/appcfg.py --oauth2_refresh_token=$GAE_TOKEN update awesome-start
+#- cd ..
+#- ls
+#- wget http://googleappengine.googlecode.com/files/google_appengine_1.7.4.zip -nv
+#- unzip -q google_appengine_1.7.4.zip
+#- google_appengine/appcfg.py --oauth2_refresh_token=$GAE_TOKEN update awesome-start
